@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
 
 import "./Login.css";
 import Button from "../../components/Button";
@@ -77,7 +77,7 @@ export default function Login(){
                     </form>
 
                     <div style = {{marginTop: "10px", textAlign: "center"}}>
-                        Don't have an account? <a href="/signup">Sign up</a>
+                        Don't have an account? <Link to="/signup">Sign up</Link>
                     </div>
                 </div>
             </div>

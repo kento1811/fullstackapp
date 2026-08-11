@@ -1,0 +1,36 @@
+#LoginContainer {
+  width: 30vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #F6F7D4;
+  border-radius: 10px;
+}
+
+#LoginContainer form {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  text-align: left; /* đảm bảo chắc chắn */
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* tránh input bị tràn ra ngoài do padding */
+}

@@ -1,0 +1,82 @@
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+
+import "./Login.css";
+import Button from "../../components/Button";
+import {useAuth} from "../../contexts/authContext.jsx";
+
+export default function Login(){
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
+    const { login } = useAuth();
+
+    const handleSubmit = async (e) => {
+            e.preventDefault();
+            
+            try {
+                const response = await fetch("http://localhost:3000/api/auth/login", 
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({ username, password }),
+                });
+                const data = await response.json();
+                
+                if(!response.ok){
+                    console.error("Error during login:", data.error);
+                    return;
+                }
+
+                localStorage.setItem("token", data.accessToken);
+                console.log("Login successful:", data);
+
+                login(data.user);
+
+                navigate("/");
+
+            } catch (error) {
+                console.error("Error during login:", error);
+            }
+        }
+
+    return (
+        <>
+            <div style = {{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#091413"}}>
+                <div id = "LoginContainer">
+                    <form onSubmit={handleSubmit}>
+                        <div className="input-group">
+                            <label className="form-label" htmlFor="username">Username:</label>
+                            <input
+                                className="input-field"
+                                type="text"
+                                id="username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label className="form-label" htmlFor="password">Password:</label>
+                            <input
+                                className="input-field"
+                                type="password"
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+                        <Button type="submit">Login</Button>
+                    </form>
+
+                    <div style = {{marginTop: "10px", textAlign: "center"}}>
+                        Don't have an account? <a href="/signup">Sign up</a>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}

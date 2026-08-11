@@ -10,6 +10,8 @@ export default function Signup(){
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const API_URL = import.meta.env.VITE_API_URL;
+
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -21,7 +23,7 @@ export default function Signup(){
         }
         
         try {
-            const response = await fetch("http://localhost:3000/api/auth/register", 
+            const response = await fetch(`${API_URL}/api/auth/register`, 
             {
                 method: "POST",
                 headers: {

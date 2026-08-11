@@ -1,5 +1,6 @@
 export async function refreshToken(req, res){
-    const respone = await fetch("http://localhost:3000/api/auth/refresh-token", {
+    const API_URL = import.meta.env.VITE_API_URL;
+    const respone = await fetch(`${API_URL}/api/auth/refresh-token`, {
         method : "POST",
         credentials : "include"
     });
@@ -14,7 +15,8 @@ export async function refreshToken(req, res){
 }
 
 export async function logout(){
-    const respone = await fetch("http://localhost:3000/api/auth/logout", {
+    const API_URL = import.meta.env.VITE_API_URL;
+    const respone = await fetch(`${API_URL}/api/auth/logout`, {
         method : "POST",
         credentials : "include"
     });

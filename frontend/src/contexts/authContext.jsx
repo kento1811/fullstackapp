@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const API_URL = import.meta.env.VITE_API_URL;
 
     const login = (userData) => {
         setUser(userData);
@@ -25,7 +26,7 @@ export function AuthProvider({ children }) {
             }
 
             try {
-                const response = await apiFetch("http://localhost:3000/api/auth/me");
+                const response = await apiFetch(`${API_URL}/api/auth/me`);
 
                 if (!response.ok) {
                     localStorage.removeItem("token");

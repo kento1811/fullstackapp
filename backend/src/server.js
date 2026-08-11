@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: "https://fullstackappfrontend-6ky8jro02-khoa25.vercel.app/",
+    origin: "https://fullstackappfrontend-8el52aspn-khoa25.vercel.app/",
     credentials: true
 }));
 app.use(express.json());

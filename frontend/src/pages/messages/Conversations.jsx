@@ -79,7 +79,7 @@ export default function Conversations(){
             conversation_id: activeConversation
         }));
     }, [activeConversation, socket]);
-    
+
     useEffect(() => {
         if (!socket) {
             return;

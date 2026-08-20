@@ -12,8 +12,6 @@ const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
 
-setupWebSocket(server);
-
 app.use(cors({
     origin: process.env.CORS_ORIGIN || "http://localhost:5173",
     credentials: true
@@ -41,3 +39,5 @@ app.get("/",async (req, res) => {
 server.listen(port, () =>{
   console.log(`Server is running on ws://localhost:${port}`);
 });
+
+setupWebSocket(server);

@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [socket,setSocket] = useState(null);
     const API_URL = import.meta.env.VITE_API_URL;
+    const WS_URL = import.meta.env.VITE_WS_URL;
 
     const login = (userData) => {
         setUser(userData);
@@ -63,7 +64,7 @@ export function AuthProvider({ children }) {
         }
 
         const ws = new WebSocket(
-            `ws://localhost:3000?token=${token}`
+            `${WS_URL}?token=${token}`
         );
 
         ws.onopen = () => {

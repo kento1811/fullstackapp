@@ -7,6 +7,7 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [socket,setSocket] = useState(null);
     const API_URL = import.meta.env.VITE_API_URL;
 
     const login = (userData) => {
@@ -27,14 +28,13 @@ export function AuthProvider({ children }) {
 
             try {
                 const response = await apiFetch(`${API_URL}/api/auth/me`);
-
+                const data = await response.json();
                 if (!response.ok) {
                     localStorage.removeItem("token");
                     console.error("Error fetching user:", data.error);
                     setUser(null);
                     return;
                 } 
-                const data = await response.json();
 
 
                 setUser(data.user);
@@ -50,6 +50,50 @@ export function AuthProvider({ children }) {
         loadUser();
     }, []);
 
+    useEffect(() => {
+
+        if (!user) {
+            return;
+        }
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+            return;
+        }
+
+        const ws = new WebSocket(
+            `ws://localhost:3000?token=${token}`
+        );
+
+        ws.onopen = () => {
+            console.log("WebSocket connected");
+            setSocket(ws);
+        };
+
+        ws.onmessage = (event) => {
+
+            const data = JSON.parse(event.data);
+
+            console.log("WebSocket message:", data);
+
+        };
+
+        ws.onerror = (error) => {
+            console.error("WebSocket error:", error);
+        };
+
+        ws.onclose = () => {
+            console.log("WebSocket disconnected");
+            setSocket(null);
+        };
+
+        return () => {
+            ws.close();
+        };
+
+    }, [user]);
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -61,6 +105,7 @@ export function AuthProvider({ children }) {
                 login,
                 logout,
                 loading,
+                socket,
             }}
         >
             {children}

@@ -1,7 +1,18 @@
+* {
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+#home {
+    display: flex;
+    flex-direction: row;
+    height: 100vh; 
+} 
 .ButtonContainer {
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex: 1;
+    height: 100%;
 }

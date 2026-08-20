@@ -1,0 +1,14 @@
+* {
+    border :none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#profilesContainer {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    background-color: #100f0f;
+}

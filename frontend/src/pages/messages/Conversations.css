@@ -1,0 +1,125 @@
+* {
+    border :none;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#conversations{
+    height : 100vh;
+    display: flex;
+    flex-direction: row;
+    background-color: #100f0f;
+}
+
+#conversationContainer{
+    display: flex;
+    flex:1;
+    flex-direction: row;
+    height: 100%;
+}
+
+#conversationsSidebar{
+    display: flex;
+    flex-direction: column;
+    flex :0.35;
+    background-color: #100f0f;
+    border-right: 1px solid rgba(255,255,255,0.3);
+}
+
+#dialogue {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    background-color: #100f0f;
+    height: 100%;
+    min-height: 0;
+}
+
+#conversationsSidebar .conversationsSidebar-content{
+    display: flex;
+    flex: 0.1;
+    margin-top: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
+    border-radius: 10px;
+    background-color: #100f0f;
+    height: 10%;
+    justify-content: center;
+    align-items: center;
+}
+
+#conversationsSidebar .conversationsSidebar-content.active{
+    background-color: #4b4b4b !important;
+}
+
+#conversationsSidebar .conversationsSidebar-content:hover{
+    cursor: pointer;
+}
+
+#conversationsSidebar .conversationsSidebar-content > p {
+    background-color: transparent;
+    text-align: center;
+}
+
+#dialogue #messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+#dialogue #messages .dialogue-content{
+    padding: 10px 5px;
+    background-color: #4b4b4b;
+    height: fit-content;
+    width: fit-content;
+    border-radius: 10px;
+    margin-bottom: 1px;
+    color: white;
+}
+
+#dialogue #messages .dialogue-content:first-child{
+    margin-top: 10px;
+}
+
+#dialogue #messages .dialogue-content.left{
+    margin-left: 10px;
+    align-self: flex-start;
+}
+
+#dialogue #messages .dialogue-content.right{
+    margin-right: 10px;
+    align-self: flex-end;
+}
+
+#send-message {
+    display: flex;
+    flex-shrink: 0;
+    padding: 10px;
+}
+
+#send-message form {
+    display: flex;
+    flex: 1;
+    gap: 10px;
+    color: white;
+}
+
+#form-message {
+    flex: 1;
+    min-width: 0;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #4b4b4b;
+    color: white;
+}
+
+#send-message-button {
+    color: white;
+    flex-shrink: 0;
+    padding: 10px 20px;
+    border-radius: 8px;
+}

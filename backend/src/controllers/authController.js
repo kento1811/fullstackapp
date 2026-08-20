@@ -47,7 +47,7 @@ export const loginUser = async (req, res) => {
 
     const accessToken = jwt.sign(
     {
-        userId: data.id,
+        id: data.id,
         username: data.username,
         email: data.email
     },
@@ -108,7 +108,8 @@ export async function refreshToken(req, res){
     try{
         const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
         const accessToken = jwt.sign({
-            userId: decoded.id,
+            sub: decoded.id,                                  
+            id: decoded.id,
             username: decoded.username,
             email: decoded.email
         }, process.env.JWT_SECRET, {expiresIn : "15m"});

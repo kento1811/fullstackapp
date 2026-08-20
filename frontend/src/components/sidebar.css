@@ -1,0 +1,106 @@
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#sidebar {
+  width: 23%;
+  height: 100vh;
+  position: relative;
+  border-right: 1px solid rgba(255,255,255,0.3);
+  background-color: #100f0f;
+  transition: width 0.3s ease;
+  overflow: visible;
+}
+
+#sidebar.closed {
+  width: 3%;
+}
+
+#sidebar-inner {
+  width: 250px;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+  transform: translateX(0);
+}
+
+#sidebar.closed #sidebar-inner {
+  transform: translateX(-90%);
+}
+
+#sidebar-top {
+  margin-left: 40px;
+}
+
+#logo {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#logo > p {
+  color: white;
+}
+
+#closeButton {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+#closeButton > button {
+  padding: 10px;
+  background-color: #100f0f;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+}
+
+#closeButton > button:hover {
+  background-color: #000000;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+#closeButton > button > i.rotated {
+  transform: rotate(90deg);
+}
+
+.sidebarItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  background-color: #100f0f;
+}
+
+.sidebarButton {
+  border: none;
+  color: white;
+  font-size: 20px;
+  background-color: transparent;
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+}
+
+.sidebarButton:hover {
+  color: #f0f0f0;
+  cursor: pointer;
+}
+
+.sidebar-icon {
+  margin-right: 10px;
+  font-weight: 800;
+  color: white;
+}
+
+.sidebarItem .active {
+  background-color: #4b4b4b;
+}

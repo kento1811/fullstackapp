@@ -3,14 +3,13 @@ import {useNavigate, Link} from "react-router-dom";
 
 import "./Signup.css";
 import Button from "../../components/Button";
+import {signup} from "../../services/authService.js";
 
 export default function Signup(){
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-
-    const API_URL = import.meta.env.VITE_API_URL;
 
     const navigate = useNavigate();
 
@@ -23,15 +22,11 @@ export default function Signup(){
         }
         
         try {
-            const response = await fetch(`${API_URL}/api/auth/register`, 
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, email, password }),
-            });
-            const data = await response.json();
+            const {response, data} = await signup(
+                username,
+                email,
+                password
+            );
             
             if(!response.ok){
                 console.error("Error during signup:", data.error);
@@ -48,7 +43,7 @@ export default function Signup(){
 
     return (
         <>
-            <div style = {{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#091413"}}>
+            <div style = {{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#100f0f"}}>
                 <div id = "SignupContainer">
                     <form onSubmit={handleSubmit}>
                         <div className="input-group">
@@ -61,6 +56,7 @@ export default function Signup(){
                                 onChange={(e) => setUsername(e.target.value)}
                             />
                         </div>
+
                         <div className="input-group">
                             <label className="form-label" htmlFor="email">Email:</label>
                             <input
@@ -71,6 +67,7 @@ export default function Signup(){
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
+
                         <div className="input-group">
                             <label className="form-label" htmlFor="password">Password:</label>
                             <input
@@ -81,6 +78,7 @@ export default function Signup(){
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+
                         <div className="input-group">
                             <label className="form-label" htmlFor="confirmPassword">Confirm Password:</label>
                             <input
@@ -91,6 +89,7 @@ export default function Signup(){
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </div>
+
                         <Button type="submit">Signup</Button>
                     </form>
 

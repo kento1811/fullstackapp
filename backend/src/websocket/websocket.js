@@ -119,6 +119,9 @@ export function setupWebSocket(server) {
                     return;
                 }
                 for(const client of room){
+                    if(client.user.id == socket.user.id) {
+                        continue;
+                    }
                     client.send(JSON.stringify({
                         type: "new_message",
                         conversation_id: data.conversation_id,

@@ -40,13 +40,25 @@ export default function Conversations(){
     const handleSendMessage = async (e) => {
         e.preventDefault();
         const content = messageInput.trim();
+        setMessageInput("");
 
         if (!content || !activeConversation) return;
 
         try {
+            const newMessage = {
+                id: crypto.randomUUID(),
+                sent_id:user.id,
+                content:content,
+            }
+            setMessages((prev) =>[
+                ...prev,
+                newMessage
+            ])
+
             const tempMsg = await sendMessageViaSocket(socket, activeConversation, content, user.id);
-            
-            setMessageInput("");
+
+
+           
         } catch (error) {
             console.error("Lỗi gửi tin nhắn:", error);
         }
@@ -54,7 +66,7 @@ export default function Conversations(){
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({
-            behavior: "smooth"
+            behavior: "instant"
         });
     };
 

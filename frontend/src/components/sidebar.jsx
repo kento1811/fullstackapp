@@ -19,13 +19,13 @@ export default function Sidebar( {activePage = ""}){
             </button>
           </div>
           <div id="ProfileButton" className="sidebarItem">
-            <button className={`sidebarButton ${activePage == 'Profiles' ? 'active' : ''}`} onClick={() => navigate("/profiles")}>
+            <button className={`sidebarButton ${activePage == 'Profiles' ? 'active' : ''}`} onClick={() => navigate("/profile")}>
               <i className="fa-solid fa-user sidebar-icon"></i>
               Profiles
             </button>
           </div>
           <div id="SettingButton" className="sidebarItem">
-            <button className={`sidebarButton ${activePage == 'Conversations' ? 'active' : ''}`} onClick={() => navigate("/conversations")}>
+            <button className={`sidebarButton ${activePage == 'Conversations' ? 'active' : ''}`} onClick={() => navigate("/conversation")}>
               <i className="fa-regular fa-message sidebar-icon"></i>
               Message
             </button>

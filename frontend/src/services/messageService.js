@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export async function getConversation() {
     const response = await apiFetch(
-        `${API_URL}/api/conversations`,
+        `${API_URL}/api/conversation`,
         {
             method: "GET",
         }
@@ -25,7 +25,7 @@ export async function getMessage(conversations_id) {
     }
 
     const response = await apiFetch(
-        `${API_URL}/api/conversations/${conversations_id}/messages`,
+        `${API_URL}/api/conversation/${conversations_id}/message`,
         {
             method: "GET",
         }
@@ -40,17 +40,16 @@ export async function getMessage(conversations_id) {
     return { response, data };
 }
 
-export async function sendMessage(conversations_id, content) {
-    if (!conversations_id) {
+export async function sendMessage(conversation_id, content) {
+    if (!conversation_id) {
         throw new Error("Need conversations id");
     }
 
     const response = await apiFetch(
-        `${API_URL}/api/conversations/${conversations_id}/messages`,
+        `${API_URL}/api/conversation/${conversation_id}/message`,
         {
             method: "POST",
             body: JSON.stringify({
-                conversation_id: conversations_id,
                 content: content
             })
         }

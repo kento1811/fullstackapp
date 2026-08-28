@@ -1,10 +1,11 @@
+
 import supabase from "../config/supabase.js";
 
 export async function getConversations(req,res){
     const sentId = req.user.id;
 
     const { data, error } = await supabase
-        .from("conversations_member")
+        .from("conversation_member")
         .select("*")
         .eq("id", sentId)
         .order("Joined_at", { ascending: true });
@@ -25,8 +26,12 @@ export async function getConversations(req,res){
 }
 
 export async function sentMessage(req, res){
-    const sentId = req.user.id;
-    const {conversation_id, content} = req.body;
+    const user_id = req.user.id;
+    const conversation_id = req.params.conversation_id;
+
+    const content = req.body.content;
+    console.log(req.params.conversation_id);
+    console.log(req.body.content);
 
     if(!content || content.trim() === ""){
         return res.status(400).json({
@@ -35,10 +40,10 @@ export async function sentMessage(req, res){
     }
 
     const {data , error} = await supabase
-    .from("messages")
+    .from("message")
     .insert({
-        sent_id : sentId,
-        conversations_id : conversation_id,
+        sent_id : user_id,
+        conversation_id : conversation_id,
         content : content.trim()
     })
     .select()
@@ -59,12 +64,12 @@ export async function sentMessage(req, res){
 }
 
 export async function getMessages(req, res) {
-    const conversationId = req.params.conversation_id;
+    const conversation_id = req.params.conversation_id;
 
     const { data, error } = await supabase
-        .from("messages")
+        .from("message")
         .select("*")
-        .eq("conversations_id", conversationId)
+        .eq("conversation_id", conversation_id )
         .order("Send_at", { ascending: true });
 
     if (error) {
@@ -77,4 +82,34 @@ export async function getMessages(req, res) {
     return res.status(200).json({
         data
     });
+}
+
+export async function deleteAdminMessage(req,res){
+    const conversation_id = process.env.ADMIN_CONVERSATION_ID;
+    
+    try {
+        const {data, error} = await supabase
+        .from("message")
+        .delete()
+        .eq("conversation_id", conversation_id)
+        .select();
+
+        if(error){
+            console.error("error while trying to delete message ",error );
+            return res.status(500).json({
+                error: error
+            })
+        }
+        
+        console.log(data.data);
+
+        return res.status(200).json({
+            data: data
+        });
+
+    } catch(error){
+        return res.status(500).json({
+            error: "Internal Server Error"
+        });
+    }
 }

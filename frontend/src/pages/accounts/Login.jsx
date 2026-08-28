@@ -23,7 +23,7 @@ export default function Login() {
 
             login(data.user);
 
-            navigate("/profiles");
+            navigate("/profile");
         } catch (error) {
             console.error("Error during login:", error);
         }

@@ -45,12 +45,12 @@ export function setupWebSocket(server) {
             const data = JSON.parse(message.toString());
 
             if(data.type == "join_conversation"){
-                const userId = socket.user.id;
+                const user_id = socket.user.id;
 
                 const { data : member, error } = await supabase
-                .from("conversations_member")
+                .from("conversation_member")
                 .select("id, conversation_id")
-                .eq("id", userId)
+                .eq("id", user_id)
                 .eq("conversation_id", data.conversation_id)
                 .maybeSingle();
                 
@@ -71,9 +71,11 @@ export function setupWebSocket(server) {
                     rooms.set(data.conversation_id, new Set());
                 }
 
-                rooms
-                .get(data.conversation_id)
-                .add(socket);
+                const room = rooms.get(data.conversation_id);
+                if(!room.has(socket)){
+                    console.log("successfull joined converstation ", data.conversation_id);
+                    room.add(socket);
+                }
 
                 socket.send(JSON.stringify({
                     type: "joined_conversation",
@@ -98,12 +100,12 @@ export function setupWebSocket(server) {
                     }));
                     return;
                 }
-                const sentId = socket.user.id;
+                const sent_id = socket.user.id;
                 const { data: messageData, error } = await supabase
-                    .from("messages")
+                    .from("message")
                     .insert({
-                        sent_id: sentId,
-                        conversations_id: data.conversation_id,
+                        sent_id: sent_id,
+                        conversation_id: data.conversation_id,
                         content: data.data.trim()
                     })
                     .select()
@@ -129,11 +131,11 @@ export function setupWebSocket(server) {
         socket.on("close", () => {
             console.log("Client disconnected");
 
-            for (const [conversationId, room] of rooms) {
+            for (const [conversation_id, room] of rooms) {
                 room.delete(socket);
 
                 if (room.size === 0) {
-                    rooms.delete(conversationId);
+                    rooms.delete(conversation_id);
                 }
             }
         });

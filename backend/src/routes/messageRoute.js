@@ -1,28 +1,34 @@
 import express from "express";
-import { authenticateToken } from "../middlewares/authMiddleware.js";
+import { authenticateToken, authenticateAdmin } from "../middlewares/authMiddleware.js";
 import checkConversationMember from "../middlewares/checkConversationMember.js";
-import  {sentMessage, getMessages, getConversations} from "../controllers/messageController.js";
+import  {sentMessage, getMessages, getConversations, deleteAdminMessage} from "../controllers/messageController.js";
 
 const router = express.Router();
 
 router.get(
-    "/conversations",
+    "/conversation",
     authenticateToken,
     getConversations
 );
 
 router.post(
-    "/conversations/:conversation_id/messages",
+    "/conversation/:conversation_id/message",
     authenticateToken,
     checkConversationMember,
     sentMessage
 )
 
 router.get(
-    "/conversations/:conversation_id/messages",
+    "/conversation/:conversation_id/message",
     authenticateToken,
     checkConversationMember,
     getMessages
 );
+
+router.get(
+    "/conversation/delete/admin",
+    authenticateAdmin,
+    deleteAdminMessage
+)
 
 export default router;

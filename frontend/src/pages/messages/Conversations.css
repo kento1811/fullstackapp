@@ -45,9 +45,13 @@
     margin-right: 3px;
     border-radius: 10px;
     background-color: #100f0f;
+    color: white;
     height: 10%;
     justify-content: center;
     align-items: center;
+}
+#conversationsSidebar .conversationsSidebar-content > p {
+    color: white;
 }
 
 #conversationsSidebar .conversationsSidebar-content.active{

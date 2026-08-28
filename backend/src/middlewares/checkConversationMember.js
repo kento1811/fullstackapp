@@ -1,20 +1,20 @@
 import supabase from "../config/supabase.js";
 
 export default async function checkConversationMember(req, res, next) {
-    const userId = req.user.id;
-    const conversationId = req.params.conversation_id;
+    const user_id = req.user.id;
+    const conversation_id = req.params.conversation_id;
 
-    if (!conversationId) {
+    if (!conversation_id) {
         return res.status(400).json({
             error: "conversation_id is required"
         });
     }
 
     const { data, error } = await supabase
-        .from("conversations_member")
+        .from("conversation_member")
         .select("id, conversation_id")
-        .eq("id", userId)
-        .eq("conversation_id", conversationId)
+        .eq("id", user_id)
+        .eq("conversation_id", conversation_id)
         .maybeSingle();
 
     if (error) {

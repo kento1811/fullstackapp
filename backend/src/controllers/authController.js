@@ -6,12 +6,12 @@ export const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const password_hash = await bcrypt.hash(password, 10);
 
     // Insert the new user into the database
     const { data, error } = await supabase
-        .from("users")
-        .insert([{ username, email, password_hash: hashedPassword }])
+        .from("user")
+        .insert([{ username, email, password_hash: password_hash }])
         .select()
         .single();
 
@@ -24,10 +24,12 @@ export const registerUser = async (req, res) => {
 };
 
 export const loginUser = async (req, res) => {
+    console.log("BODY:", req.body);
     const {username, password} = req.body;
 
+
     const {data, error} = await supabase
-    .from("users")
+    .from("user")
     .select("*")
     .eq("username", username)
     .single();

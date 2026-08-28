@@ -1,26 +1,17 @@
 import Sidebar from "../../components/sidebar";
 import "./Conversations.css";
-import { getConversation, getMessage } from "../../services/messageService";
+import { getMessage } from "../../services/messageService";
+import { useConversation } from "../../contexts/conversationContext.jsx";
 import { useAuth } from "../../contexts/authContext.jsx";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 export default function Conversations(){
-    const [conversations,setConversations] = useState([]);
     const [activeConversation,setActiveConversation] = useState(null);
     const [messages, setMessages] = useState([]);
     const [messageInput,setMessageInput] = useState("");
     const {user,socket} = useAuth();
-    const getConversations = async () => {
-        try {
-            const { response, data } = await getConversation();
-            if (!response.ok) {
-                console.error("Error during get conversation:", data.error);
-                return;
-            }
-            setConversations(data.data);
-        } catch (error) {
-            console.error("error during get conversation", error);
-        }
-    };
+    const { conversations } = useConversation();
+    const messagesEndRef = useRef(null);
+
     const getMessages = async () => {
         if(!activeConversation) {
             return;
@@ -59,9 +50,11 @@ export default function Conversations(){
         setMessageInput("");
     };
 
-    useEffect(() => {
-        getConversations();
-    }, []);
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({
+            behavior: "smooth"
+        });
+    };
 
     useEffect(() => {
         getMessages();
@@ -78,7 +71,7 @@ export default function Conversations(){
             type: "join_conversation",
             conversation_id: activeConversation
         }));
-    }, [activeConversation, socket]);
+    }, [activeConversation]);
 
     useEffect(() => {
         if (!socket) {
@@ -101,6 +94,11 @@ export default function Conversations(){
             socket.removeEventListener("message", handleMessage);
         };
     }, [socket, activeConversation]);
+
+    useEffect(() => {
+        scrollToBottom();
+    },[messages]);
+
     return(
         <div id= "conversations">
             <Sidebar activePage = "Conversations"/>
@@ -124,7 +122,10 @@ export default function Conversations(){
                             {message.content}
                         </p>
                         ))}
+
+                        <div ref={messagesEndRef}></div>
                     </div>
+                    
                     {activeConversation && 
                     <div id="send-message">
                         <form onSubmit={handleSendMessage}>

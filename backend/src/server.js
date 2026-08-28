@@ -24,7 +24,7 @@ app.use("/api",messageRoutes);
 
 app.get("/",async (req, res) => {
     const {data, error} = await supabase
-    .from("users")
+    .from("user")
     .select("*");
 
     if(error){

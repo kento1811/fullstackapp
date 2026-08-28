@@ -1,3 +1,4 @@
+import { clearLocalCache } from "./db";
 const API_URL = import.meta.env.VITE_API_URL;
 export async function refreshToken(){
     const respone = await fetch(`${API_URL}/api/auth/refresh-token`, {
@@ -27,7 +28,7 @@ export async function logout(){
         return;
     }
     localStorage.removeItem("token");
-
+    clearLocalCache();
 }
 
 export const login = async (username, password) => {

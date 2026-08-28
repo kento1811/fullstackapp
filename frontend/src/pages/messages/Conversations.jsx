@@ -1,12 +1,14 @@
 import Sidebar from "../../components/sidebar";
 import "./Conversations.css";
-import { getMessage } from "../../services/messageService";
+import { getMessage, sendMessageViaSocket } from "../../services/messageService";
 import { useConversation } from "../../contexts/conversationContext.jsx";
 import { useAuth } from "../../contexts/authContext.jsx";
+import Loading from "../../components/Loading.jsx";
 import { useState, useEffect,useRef } from "react";
 export default function Conversations(){
     const [activeConversation,setActiveConversation] = useState(null);
     const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [messageInput,setMessageInput] = useState("");
     const {user,socket} = useAuth();
     const { conversations } = useConversation();
@@ -17,37 +19,37 @@ export default function Conversations(){
             return;
         }
         try{
-            const {response, data} = await getMessage(activeConversation);
+            setLoading(true);
+            const { response, data } = await getMessage(
+                activeConversation, 
+                (cachedData) => {
+                    setMessages(cachedData); 
+                    setLoading(false);  
+                }
+            );
             if (!response.ok) {
                 console.error("Error during get conversation:", data.error);
                 return;
             }
-            console.log(data);
             setMessages(data.data);
+            setLoading(false);
         } catch(error){
             console.error("error during get messages", error);
         }
     }
-    const handleSendMessage = (e) => {
+    const handleSendMessage = async (e) => {
         e.preventDefault();
-        if (!messageInput.trim()) {
-            return;
+        const content = messageInput.trim();
+
+        if (!content || !activeConversation) return;
+
+        try {
+            const tempMsg = await sendMessageViaSocket(socket, activeConversation, content, user.id);
+            
+            setMessageInput("");
+        } catch (error) {
+            console.error("Lỗi gửi tin nhắn:", error);
         }
-        if (!activeConversation) {
-            return;
-        }
-        if (!socket) {
-            return;
-        }
-        if (socket.readyState !== WebSocket.OPEN) {
-            return;
-        }
-        socket.send(JSON.stringify({
-            type: "sent_message",
-            conversation_id: activeConversation,
-            data: messageInput.trim()
-        }));
-        setMessageInput("");
     };
 
     const scrollToBottom = () => {
@@ -77,16 +79,13 @@ export default function Conversations(){
         if (!socket) {
             return;
         }
-        const handleMessage = (event) => {
+        const handleMessage = async (event) => {
             const data = JSON.parse(event.data);
             if (data.type === "new_message") {
                 if (data.conversation_id !== activeConversation) {
                     return;
                 }
-                setMessages(prev => [
-                    ...prev,
-                    data.data
-                ]);
+                await getMessages();
             }
         };
         socket.addEventListener("message", handleMessage);
@@ -114,17 +113,23 @@ export default function Conversations(){
                     ))}
                 </div>
                 <div id="dialogue">
-                    <div id="messages">
-                        {messages.map((message,index) => (
-                        <p key = {message.id} className={`dialogue-content 
-                            ${ user.id === message.sent_id ? "right" : "left"}
-                        `}>
-                            {message.content}
-                        </p>
-                        ))}
+                    {loading ? 
+                        <div className="loading">
+                            <Loading></Loading>
+                        </div>
+                    :
+                        <div id="messages">
+                            {messages.map((message,index) => (
+                            <p key = {message.id} className={`dialogue-content 
+                                ${ user.id === message.sent_id ? "right" : "left"}
+                            `}>
+                                {message.content}
+                            </p>
+                            ))}
 
-                        <div ref={messagesEndRef}></div>
-                    </div>
+                            <div ref={messagesEndRef}></div>
+                        </div>
+                    }
                     
                     {activeConversation && 
                     <div id="send-message">

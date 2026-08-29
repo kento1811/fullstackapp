@@ -1,8 +1,14 @@
 import express from "express";
-import {getProfile, } from "../controllers/profileController.js";
+import {getProfile,findProfile } from "../controllers/profileController.js";
 import {authenticateToken} from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
+
+router.get(
+    "/search",
+    authenticateToken,
+    findProfile
+)
 
 router.get(
     "/:profile_id",
@@ -14,5 +20,7 @@ router.get(
 //     authenticateToken,
 //     ChangeOwnProfile
 // )
+
+
 
 export default router;

@@ -64,3 +64,28 @@ export async function getProfile(req,res){
         })
     }
 }
+
+export async function findProfile(req,res){
+    try{
+        const q = req.query.q?.trim() || "";
+        console.log(q);
+        if(q.length < 2){
+            return res.status(200).json({data : []});
+        }
+
+        const {data , error} = await supabase
+        .rpc("search_profiles", { search_text: q });
+        if (error) {
+            console.error("Supabase Query Error:", error);
+            return res.status(400).json({ error: error.message });
+        }
+
+        return res.status(200).json({ data });
+
+    } catch(error){
+        console.error(error);
+        return res.status(500).json({
+            error: "internal server error"
+        })
+    }
+}

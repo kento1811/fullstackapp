@@ -12,3 +12,8 @@
     flex-direction: row;
     background-color: #100f0f;
 }
+
+#content {
+    display: flex;
+    flex: 1;
+}

@@ -8,7 +8,7 @@ export function ConversationProvider({ children }) {
 
     const [conversations, setConversations] = useState([]);
 
-    const { socket } = useAuth();
+    const { user,socket } = useAuth();
 
     const loadConversations = async () => {
         try {
@@ -34,10 +34,17 @@ export function ConversationProvider({ children }) {
 
         }
     };
+
     useEffect(() => {
+        if (!user) {
+        setConversations([]);
+        } else {
+            loadConversations();
+        }
+    },[user]);
 
+    useEffect(() => {
         loadConversations();
-
     }, []);
 
         useEffect(() => {

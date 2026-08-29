@@ -70,6 +70,13 @@ export default function Conversations(){
         });
     };
 
+    useEffect(()=>{
+        if(!user){
+            setMessages([]);
+            setActiveConversation(null);
+        }
+    }, [user])
+
     useEffect(() => {
         getMessages();
         if (!socket) {

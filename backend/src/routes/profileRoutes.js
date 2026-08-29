@@ -1,0 +1,18 @@
+import express from "express";
+import {getProfile, } from "../controllers/profileController.js";
+import {authenticateToken} from "../middlewares/authMiddleware.js";
+
+const router = express.Router();
+
+router.get(
+    "/:profile_id",
+    authenticateToken,
+    getProfile
+)
+// router.post(
+//     "/me",
+//     authenticateToken,
+//     ChangeOwnProfile
+// )
+
+export default router;

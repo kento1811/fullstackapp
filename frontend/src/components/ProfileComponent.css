@@ -1,0 +1,45 @@
+#profile-component{
+    display: flex;
+    flex-direction: column;
+    flex:1;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#avatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex: 0.2;
+}
+
+#avatar > img {
+    width: 100px;
+    border: 1px solid transparent;
+    border-radius: 50%;
+}
+
+#information{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+    gap: 8px;
+}
+
+#information #name {
+    color: white;
+} 
+
+#images{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+}

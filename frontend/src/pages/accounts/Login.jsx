@@ -2,14 +2,16 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import "./Login.css";
+import { ErrorPopUp } from "../../components/ErrorPopup.jsx";
 import Button from "../../components/Button";
 import { useAuth } from "../../contexts/authContext.jsx";
 import { login as loginService } from "../../services/authService.js";
 
 export default function Login() {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const [isError,setIsError] = useState(false);
+    const [errorMessage,setErrorMessage] = useState("");
     const navigate = useNavigate();
     const { login } = useAuth();
 
@@ -17,7 +19,7 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            const data = await loginService(username, password);
+            const data = await loginService(email, password);
 
             console.log("Login successful:", data);
 
@@ -25,6 +27,8 @@ export default function Login() {
 
             navigate("/profile");
         } catch (error) {
+            setIsError(true);
+            setErrorMessage("Ivalid email or password");
             console.error("Error during login:", error);
         }
     };
@@ -40,23 +44,26 @@ export default function Login() {
                     backgroundColor: "#100f0f",
                 }}
             >
+                {isError&&
+                    <ErrorPopUp errorMessage = {errorMessage} setError= {setIsError}></ErrorPopUp>
+                }
                 <div id="LoginContainer">
                     <form onSubmit={handleSubmit}>
                         <div className="input-group">
                             <label
                                 className="form-label"
-                                htmlFor="username"
+                                htmlFor="email"
                             >
-                                Username:
+                                Email:
                             </label>
 
                             <input
                                 className="input-field"
                                 type="text"
-                                id="username"
-                                value={username}
+                                id="email"
+                                value={email}
                                 onChange={(e) =>
-                                    setUsername(e.target.value)
+                                    setEmail(e.target.value)
                                 }
                             />
                         </div>

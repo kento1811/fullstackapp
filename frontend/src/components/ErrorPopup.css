@@ -1,0 +1,63 @@
+#PopupContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  
+  width: 300px;
+  padding: 16px;
+  background-color: #ffffff;
+  border-left: 5px solid #ff4d4f;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+#PopupContainer h3 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #ff4d4f;
+}
+
+#PopupContainer p {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+#PopupContainer button {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+#PopupContainer.slide-out {
+  animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}

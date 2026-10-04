@@ -2,7 +2,8 @@ import express from "express";
 import cors from "cors";
 import supabase from "./config/supabase.js";
 import authRoutes from "./routes/authRoutes.js";
-import messageRoutes from "./routes/messageRoute.js";
+import messageRoutes from "./routes/messageRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js"
 import cookieParser from "cookie-parser";
 import http from "http";
 import { setupWebSocket } from "./websocket/websocket.js";
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api",messageRoutes);
+app.use("/profile",profileRoutes);
 
 
 app.get("/",async (req, res) => {

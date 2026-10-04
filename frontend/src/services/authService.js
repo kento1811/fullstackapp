@@ -31,7 +31,7 @@ export async function logout(){
     clearLocalCache();
 }
 
-export const login = async (username, password) => {
+export const login = async (email, password) => {
     const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: {
@@ -39,7 +39,7 @@ export const login = async (username, password) => {
         },
         credentials: "include",
         body: JSON.stringify({
-            username,
+            email,
             password,
         }),
     });
@@ -47,6 +47,7 @@ export const login = async (username, password) => {
     const data = await response.json();
 
     if (!response.ok) {
+        
         throw new Error(data.error || "Login failed");
     }
 

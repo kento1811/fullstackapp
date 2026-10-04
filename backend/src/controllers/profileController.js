@@ -64,3 +64,7 @@ export async function getProfile(req,res){
         })
     }
 }
+
+export async function setProfile(req,res){
+     
+}

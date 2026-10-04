@@ -6,6 +6,7 @@ import Login from "./pages/accounts/Login";
 import Signup from "./pages/accounts/Signup";
 import Conversations from "./pages/messages/Conversations.jsx";
 import Profiles from "./pages/accounts/profiles";
+import ProfileSignUp from "./pages/accounts/ProfileSignUp.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 export default function App() {
@@ -29,6 +30,11 @@ export default function App() {
             <Profiles />
           </ProtectedRoute>
         } />
+        <Route path="/profileSignUp" element= {
+          <ProtectedRoute>
+            <ProfileSignUp/>
+          </ProtectedRoute>
+        }/>
       </Routes>
     </BrowserRouter>
   );

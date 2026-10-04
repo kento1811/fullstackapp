@@ -4,12 +4,15 @@ import {useNavigate, Link} from "react-router-dom";
 import "./Signup.css";
 import Button from "../../components/Button";
 import {signup} from "../../services/authService.js";
+import { ErrorPopUp } from "../../components/ErrorPopup.jsx";
 
 export default function Signup(){
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [isError,setIsError] = useState(false);
+    const [errorMessage,setErrorMessage] = useState("");
 
     const navigate = useNavigate();
 
@@ -17,7 +20,8 @@ export default function Signup(){
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            setIsError(true);
+            setErrorMessage("Passwords do not match!");
             return;
         }
         
@@ -27,23 +31,30 @@ export default function Signup(){
                 email,
                 password
             );
-            
-            if(!response.ok){
-                console.error("Error during signup:", data.error);
-                return;
-            }
 
             console.log("Signup successful:", data);
-            navigate("/login");
+            navigate("/ProfileSignUp");
 
         } catch (error) {
             console.error("Error during signup:", error);
+            setIsError(true);
+            const message = error?.message || String(error);
+                if(message.includes('email')){
+                    setErrorMessage("email already taken");
+                }
+                if(message.includes('username')){
+                    setErrorMessage("username already taken");
+                }
+                return;
         }
     }
 
     return (
         <>
             <div style = {{display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#100f0f"}}>
+                {isError && 
+                    <ErrorPopUp errorMessage={errorMessage} setError={setIsError}></ErrorPopUp>
+                }
                 <div id = "SignupContainer">
                     <form onSubmit={handleSubmit}>
                         <div className="input-group">

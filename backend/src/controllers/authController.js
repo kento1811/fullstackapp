@@ -5,10 +5,9 @@ import supabase from "../config/supabase.js";
 export const registerUser = async (req, res) => {
     const { username, email, password } = req.body;
 
-    // Hash the password
+
     const password_hash = await bcrypt.hash(password, 10);
 
-    // Insert the new user into the database
     const { data, error } = await supabase
         .from("user")
         .insert([{ username, email, password_hash: password_hash }])
@@ -16,7 +15,7 @@ export const registerUser = async (req, res) => {
         .single();
 
     if (error) {
-        console.error(error);
+        console.error(error.message);
         return res.status(500).json({ error: error.message });
     }
 
@@ -25,25 +24,26 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     console.log("BODY:", req.body);
-    const {username, password} = req.body;
+    const {email, password} = req.body;
 
 
     const {data, error} = await supabase
     .from("user")
     .select("*")
-    .eq("username", username)
+    .eq("email", email)
     .single();
     
-    if(error){
-        console.error(error);
-        return res.status(500).json({
-            error : error.message
-        })
+    if (error) {
+    if (error.code === 'PGRST116') {
+        console.log("Không tìm thấy user với email này.");
+    } else {
+        console.error("Lỗi khác từ database:", error.message);
+    }
     }
 
     if(!data || !await bcrypt.compare(password, data.password_hash)){
         return res.status(401).json({
-            error : "Invalid username or password"
+            error : "Invalid email or password"
         })
     }
 

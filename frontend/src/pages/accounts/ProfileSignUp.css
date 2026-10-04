@@ -1,0 +1,50 @@
+#signup-profile-container {
+  width: 30vw;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #000000;
+  border-radius: 10px;
+}
+
+#signup-profile-container form {
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  box-sizing: border-box; 
+}
+
+.radio-checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Tạo khoảng cách giữa nút Nam và Nữ */
+}
+
+.radio-checkbox label {
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Tạo khoảng cách giữa ô radio và chữ (Nam/Nữ) */
+    cursor: pointer; /* Hiện con trỏ dạng bàn tay khi di chuột vào */
+}

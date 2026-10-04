@@ -27,18 +27,24 @@ export default function ProfileComponent({profile_id = "me"}){
 
 
     return (
-        loading ? <Loading></Loading> :
-        <div id = "profile-component">
-            <div id="avatar">
-                <img src={profile.avatar_url} alt="avatar" />
+        <div style={{width : "100%", height: "100vh"}}>
+            {loading ? 
+            <div style={{display : "flex", justifyContent : "center", alignItems: "center", height: "100vh"}}>
+                <Loading></Loading>
             </div>
-            <div id="information">
-                <p id="name"> {profile.name ? profile.name : "guest"}</p>
-                <p id="quote">{profile.quote}</p>
-                <p id="date-of-birth">{profile.date_of_birth}</p>
-                <p id="gender">{profile.is_male ? "male" : "female"}</p>
-            </div>
-            <div id="images"></div>
+            :
+            <div id = "profile-component">
+                <div id="avatar">
+                    <img src={profile.avatar_url} alt="avatar" />
+                </div>
+                <div id="information">
+                    <p id="name"> {profile.name ? profile.name : "guest"}</p>
+                    <p id="quote">{profile.quote}</p>
+                    <p id="date-of-birth">{profile.date_of_birth}</p>
+                    <p id="gender">{profile.is_male ? "male" : "female"}</p>
+                </div>
+                <div id="images"></div>
+            </div>}
         </div>
     );
 }

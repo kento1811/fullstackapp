@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Sidebar from "../../components/sidebar.jsx"
-import ProfileComponent from "../../components/ProfileComponent.jsx";
+import Sidebar from "../../components/page components/sidebar.jsx";
+import ProfileComponent from "../../components/page components/ProfileComponent.jsx";
 import "./profile.css";
 
 
@@ -12,7 +12,7 @@ export default function Profiles() {
         <div id = "profilesContainer">
             <Sidebar activePage = "Profiles"/>
             <div id="content">
-                <ProfileComponent></ProfileComponent>
+                <ProfileComponent profile_id={window.location.pathname.split("/").pop()} />
             </div>
         </div>
     )

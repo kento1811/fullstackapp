@@ -1,9 +1,9 @@
-import Sidebar from "../../components/sidebar";
+import Sidebar from "../../components/page components/sidebar";
 import "./Conversations.css";
 import { getMessage, sendMessageViaSocket } from "../../services/messageService";
 import { useConversation } from "../../contexts/conversationContext.jsx";
 import { useAuth } from "../../contexts/authContext.jsx";
-import Loading from "../../components/Loading.jsx";
+import Loading from "../../components/page components/Loading.jsx";
 import { useState, useEffect,useRef } from "react";
 export default function Conversations(){
     const [activeConversation,setActiveConversation] = useState(null);

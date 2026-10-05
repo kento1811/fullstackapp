@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import "./Login.css";
-import { ErrorPopUp } from "../../components/ErrorPopup.jsx";
-import Button from "../../components/Button";
+import { ErrorPopUp } from "../../components/utilities/ErrorPopup.jsx";
+import Button from "../../components/utilities/Button.jsx";
 import { useAuth } from "../../contexts/authContext.jsx";
 import { login as loginService } from "../../services/authService.js";
 
@@ -21,15 +21,12 @@ export default function Login() {
         try {
             const data = await loginService(email, password);
 
-            console.log("Login successful:", data);
-
             login(data.user);
 
             navigate("/profile");
         } catch (error) {
             setIsError(true);
             setErrorMessage("Ivalid email or password");
-            console.error("Error during login:", error);
         }
     };
 

@@ -7,7 +7,8 @@ import Signup from "./pages/accounts/Signup";
 import Conversations from "./pages/messages/Conversations.jsx";
 import Profiles from "./pages/accounts/profiles";
 import ProfileSignUp from "./pages/accounts/ProfileSignUp.jsx";
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import ProtectedRoute from "./components/routes/ProtectedRoute.jsx";
+import Search from "./pages/utilities/Search.jsx";
 
 export default function App() {
   return (
@@ -25,7 +26,7 @@ export default function App() {
             <Conversations />
           </ProtectedRoute>
         } />
-        <Route path="/profile" element={
+        <Route path="/profile/:profile_id" element={
           <ProtectedRoute>
             <Profiles />
           </ProtectedRoute>
@@ -34,6 +35,12 @@ export default function App() {
           <ProtectedRoute>
             <ProfileSignUp/>
           </ProtectedRoute>
+        }/>
+        <Route path="/profileSignUp" element= {
+            <ProfileSignUp/>
+        }/>
+        <Route path="/search" element= {
+            <Search/>
         }/>
       </Routes>
     </BrowserRouter>

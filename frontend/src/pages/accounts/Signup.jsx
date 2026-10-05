@@ -2,9 +2,9 @@ import {useState} from "react";
 import {useNavigate, Link} from "react-router-dom";
 
 import "./Signup.css";
-import Button from "../../components/Button";
+import Button from "../../components/utilities/Button.jsx";
 import {signup} from "../../services/authService.js";
-import { ErrorPopUp } from "../../components/ErrorPopup.jsx";
+import { ErrorPopUp } from "../../components/utilities/ErrorPopup.jsx";
 
 export default function Signup(){
     const [username, setUsername] = useState("");
@@ -32,7 +32,7 @@ export default function Signup(){
                 password
             );
 
-            console.log("Signup successful:", data);
+            console.log("Signup successful:");
             navigate("/ProfileSignUp");
 
         } catch (error) {

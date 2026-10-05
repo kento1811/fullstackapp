@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get(
     "/search",
-    authenticateToken,
     findProfile
 )
 

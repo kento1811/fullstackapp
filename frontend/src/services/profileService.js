@@ -18,3 +18,25 @@ export async function getProfile(profile_id = "me") {
 
     return {response, data};
 }
+
+export async function findProfile(query) {
+
+    if(query.length < 3){
+        return {response: null, data: []};
+    }
+
+    const response = await apiFetch(
+        `${API_URL}/profile/search?query=${encodeURIComponent(query)}`,
+        {
+            method: "GET"
+        }
+    )
+
+    const data = await response.json();
+
+    if(!response.ok){
+        throw new Error(data.error || "Find Profile failed");
+    }
+
+    return {response, data};
+}

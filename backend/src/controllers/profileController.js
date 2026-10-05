@@ -2,7 +2,7 @@ import supabase from "../config/supabase.js";
 
 export async function getProfile(req,res){
     let id = req.params.profile_id;
-    console.log(id);
+    console.log("profile id: ",id);
     if(!id){
         return res.status(401).json({
             error: "require profile id"
@@ -12,7 +12,7 @@ export async function getProfile(req,res){
         let data, error;
         if(id == "me"){
             id = req.user.id;
-            console.log(id);
+            
             ({data, error} = await supabase
             .from("profile")
             .select(`
@@ -26,6 +26,7 @@ export async function getProfile(req,res){
             .eq("user_id", id)
             .single());
         } else {
+            console.log("fuck you");
             ({data, error} = await supabase
             .from("profile")
             .select(`
@@ -38,6 +39,7 @@ export async function getProfile(req,res){
                 `)
             .eq("profile_id", id)
             .single());
+            
         }
         if(error){
             console.error("error during get Profile");
@@ -67,7 +69,7 @@ export async function getProfile(req,res){
 
 export async function findProfile(req,res){
     try{
-        const q = req.query.q?.trim() || "";
+        const q = req.query.query?.trim() || "";
         console.log(q);
         if(q.length < 2){
             return res.status(200).json({data : []});

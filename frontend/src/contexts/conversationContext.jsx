@@ -71,7 +71,6 @@ export function ConversationProvider({ children }) {
 
             if (data.type === "new_message") {
 
-                console.log("New message:", data);
 
                 setConversations(prev => {
 

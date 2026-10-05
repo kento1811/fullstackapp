@@ -3,10 +3,10 @@ import {useNavigate} from "react-router-dom";
 import { useAuth } from "../contexts/authContext.jsx";
 import { logout as logoutService } from "../services/authService.js";
 
-import Button from "../components/Button.jsx";
+import Button from "../components/utilities/Button.jsx";
 
 import "./Home.css";
-import Sidebar from "../components/sidebar.jsx";
+import Sidebar from "../components/page components/sidebar.jsx";
 
 export default function Home() {
     const navigate = useNavigate();

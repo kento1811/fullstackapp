@@ -2,8 +2,8 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 import "./ProfileSignUp.css";
-import Button from "../../components/Button";
-import { ErrorPopUp } from "../../components/ErrorPopup.jsx";
+import Button from "../../components/utilities/Button.jsx";
+import { ErrorPopUp } from "../../components/utilities/ErrorPopup.jsx";
 
 export default function ProfileSignUp(){
     const [name, setName] = useState("");

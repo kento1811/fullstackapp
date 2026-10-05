@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+#searchFunc {
+    background-color: #de0505;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40rem;
+    height: 2rem;
+    border-radius: 0.25rem;
+}
+
+#searchFunc form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: #2b2b2b;
+    
+}
+
+#searchFunc input {
+
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: none;
+}
+
+#searchFunc input:focus {
+    outline: none;
+}
+
+#searchFunc button {
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+}

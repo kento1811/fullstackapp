@@ -1,6 +1,6 @@
 import "./ProfileComponent.css";
 import { useEffect, useState } from "react";
-import { getProfile } from "../services/profileService.js";
+import { getProfile } from "../../services/profileService.js";
 import Loading from "./Loading.jsx";
 
 export default function ProfileComponent({profile_id = "me"}){
@@ -11,7 +11,6 @@ export default function ProfileComponent({profile_id = "me"}){
             setLoading(true);
             const {response, data} = await getProfile(profile_id);
             setProfile(data.data);
-            console.log(data.data);
             setLoading(false);
         } catch(e){
             setLoading(false);

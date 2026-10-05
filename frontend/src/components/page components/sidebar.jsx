@@ -19,7 +19,7 @@ export default function Sidebar( {activePage = ""}){
             </button>
           </div>
           <div id="ProfileButton" className="sidebarItem">
-            <button className={`sidebarButton ${activePage == 'Profiles' ? 'active' : ''}`} onClick={() => navigate("/profile")}>
+            <button className={`sidebarButton ${activePage == 'Profiles' ? 'active' : ''}`} onClick={() => navigate("/profile/me")}>
               <i className="fa-solid fa-user sidebar-icon"></i>
               Profiles
             </button>
@@ -28,6 +28,12 @@ export default function Sidebar( {activePage = ""}){
             <button className={`sidebarButton ${activePage == 'Conversations' ? 'active' : ''}`} onClick={() => navigate("/conversation")}>
               <i className="fa-regular fa-message sidebar-icon"></i>
               Message
+            </button>
+          </div>
+          <div id="SearchButton" className="sidebarItem">
+            <button className={`sidebarButton ${activePage == 'Search' ? 'active' : ''}`} onClick={() => navigate("/search")}>
+              <i className="fa-solid fa-magnifying-glass sidebar-icon"></i>
+              Search
             </button>
           </div>
           <div id="SettingButton" className="sidebarItem">

@@ -76,7 +76,6 @@ export function AuthProvider({ children }) {
 
             const data = JSON.parse(event.data);
 
-            console.log("WebSocket message:", data);
 
         };
 

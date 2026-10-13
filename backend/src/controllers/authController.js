@@ -34,7 +34,7 @@ export const loginUser = async (req, res) => {
     
     if (error) {
     if (error.code === 'PGRST116') {
-        console.log("Không tìm thấy user với email này.");
+        console.log("Invalid email or password");
     } else {
         console.error("Lỗi khác từ database:", error.message);
     }

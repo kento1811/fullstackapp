@@ -68,7 +68,6 @@ export async function getProfile(req,res){
 export async function updateProfile(req, res) {
     try {
         const id = req.user.id;
-        console.log(req.body);
         const { avatar_url, quote, is_male, name, date_of_birth } = req.body ?? {};
         const updates = {};
 

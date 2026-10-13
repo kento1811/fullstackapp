@@ -26,7 +26,6 @@ export default function ProfileSignUp(){
         profileData.is_male = isMale ?? null;
         profileData.name = name !== "" ? name : null;
         profileData.date_of_birth = dateOfBirth !== "" ? dateOfBirth : null;
-        console.log(profileData);
         try {
             const {response, data} = await updateProfile(profileData = profileData);
             if (!response.ok) {
@@ -35,7 +34,7 @@ export default function ProfileSignUp(){
                 setErrorMessage(data.error || "Failed to update profile");
                 return;
             }
-            console.log("Profile updated successfully:", data.data);
+            console.log("Profile updated successfully:");
             navigate("/profile/me");
         } catch (error) {
             console.error("Unexpected error:", error);

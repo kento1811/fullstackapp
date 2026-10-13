@@ -39,8 +39,6 @@ export async function getConversations(req, res) {
         }))
     }));
 
-    console.log("Conversations for user", userId, ":", response);
-
     return res.status(200).json({
         data: response
     });

@@ -33,7 +33,7 @@ export default function Signup(){
             );
 
             console.log("Signup successful:");
-            navigate("/ProfileSignUp");
+            navigate("/Login");
 
         } catch (error) {
             console.error("Error during signup:", error);

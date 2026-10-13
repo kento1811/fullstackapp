@@ -36,9 +36,6 @@ export default function App() {
             <ProfileSignUp/>
           </ProtectedRoute>
         }/>
-        <Route path="/profileSignUp" element= {
-            <ProfileSignUp/>
-        }/>
         <Route path="/search" element= {
             <Search/>
         }/>

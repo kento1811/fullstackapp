@@ -19,6 +19,27 @@ export async function getProfile(profile_id = "me") {
     return {response, data};
 }
 
+export async function updateProfile( profileData) {
+    const response = await apiFetch(
+        `${API_URL}/profile/me`,
+        {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(profileData)
+        }
+    )
+
+    const data = await response.json();
+
+    if(!response.ok){
+        throw new Error(data.error || "Update Profile failed");
+    }
+
+    return {response, data};
+}
+
 export async function findProfile(query) {
 
     if(query.length < 3){

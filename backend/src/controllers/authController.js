@@ -15,7 +15,7 @@ export const registerUser = async (req, res) => {
         .single();
 
     if (error) {
-        console.error(error.message);
+        console.error("Error inserting user into database:", error.message);
         return res.status(500).json({ error: error.message });
     }
 
@@ -74,6 +74,19 @@ export const loginUser = async (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
+    const isFisrtLogin = data.is_first_login;
+
+    if(isFisrtLogin){
+        await supabase
+        .from("user")
+        .update({ is_first_login: false })
+        .eq("id", data.id);
+
+        if (error) {
+        console.error(error.message);
+        return res.status(500).json({ error: "Failed to update first login status" });
+        }
+    }
     
     res.json({
         message : "Login successful",
@@ -82,6 +95,7 @@ export const loginUser = async (req, res) => {
             id : data.id,
             username : data.username,
             email : data.email,
+            isFirstLogin : isFisrtLogin
         }
     })
 }

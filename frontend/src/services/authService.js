@@ -50,7 +50,7 @@ export const login = async (email, password) => {
         
         throw new Error(data.error || "Login failed");
     }
-
+    
     localStorage.setItem("token", data.accessToken);
 
     return data;

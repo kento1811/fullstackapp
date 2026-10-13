@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import "./ProfileSignUp.css";
 import Button from "../../components/utilities/Button.jsx";
 import { ErrorPopUp } from "../../components/utilities/ErrorPopup.jsx";
+import { updateProfile } from "../../services/profileService.js";
 
 export default function ProfileSignUp(){
     const [name, setName] = useState("");
@@ -18,10 +19,28 @@ export default function ProfileSignUp(){
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
+        let profileData = {}
 
-        } catch (error) {
+        profileData.avatar_url = null;
+        profileData.quote = quote !== "" ? quote : null;
+        profileData.is_male = isMale ?? null;
+        profileData.name = name !== "" ? name : null;
+        profileData.date_of_birth = dateOfBirth !== "" ? dateOfBirth : null;
+        console.log(profileData);
+        try {
+            const {response, data} = await updateProfile(profileData = profileData);
+            if (!response.ok) {
+                console.error("Error during update profile:", data.error);
+                setIsError(true);
+                setErrorMessage(data.error || "Failed to update profile");
                 return;
+            }
+            console.log("Profile updated successfully:", data.data);
+            navigate("/profile/me");
+        } catch (error) {
+            console.error("Unexpected error:", error);
+            setIsError(true);
+            setErrorMessage("An unexpected error occurred");
         }
     }
 

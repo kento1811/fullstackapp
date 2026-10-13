@@ -22,8 +22,13 @@ export default function Login() {
             const data = await loginService(email, password);
 
             login(data.user);
-
-            navigate("/profile/me");
+            
+            if(data.user.isFirstLogin){
+                navigate("/profileSignUp");
+            }else {
+                navigate("/profile/me");
+            }
+            
         } catch (error) {
             setIsError(true);
             setErrorMessage("Ivalid email or password");

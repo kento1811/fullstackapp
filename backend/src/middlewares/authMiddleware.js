@@ -20,7 +20,6 @@ export function authenticateToken(req, res, next){
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
-        console.log(decoded);
         next();
     } catch(error){
         if (error.name === "TokenExpiredError") {
@@ -58,7 +57,6 @@ export function authenticateAdmin(req,res,next){
         if(req.user.username == "khoa"){
             return next();
         }
-        console.log(decoded.username);
         return res.status(401).json({
             error: "not admin"
         });

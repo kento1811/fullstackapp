@@ -73,7 +73,7 @@ export function setupWebSocket(server) {
 
                 const room = rooms.get(data.conversation_id);
                 if(!room.has(socket)){
-                    console.log("successfull joined converstation ", data.conversation_id);
+                    console.log("successfull joined converstation ");
                     room.add(socket);
                 }
 

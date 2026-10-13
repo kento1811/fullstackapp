@@ -23,7 +23,7 @@ export default function Login() {
 
             login(data.user);
 
-            navigate("/profile");
+            navigate("/profile/me");
         } catch (error) {
             setIsError(true);
             setErrorMessage("Ivalid email or password");

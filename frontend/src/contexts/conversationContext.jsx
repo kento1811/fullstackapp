@@ -22,8 +22,12 @@ export function ConversationProvider({ children }) {
                 );
                 return;
             }
-
+            console.log(
+                "conversations",
+                data.data
+            );
             setConversations(data.data);
+            
 
         } catch (error) {
 

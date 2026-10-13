@@ -1,27 +1,48 @@
 
 import supabase from "../config/supabase.js";
 
-export async function getConversations(req,res){
-    const sentId = req.user.id;
+export async function getConversations(req, res) {
+    const userId = req.user.id;
 
     const { data, error } = await supabase
-        .from("conversation_member")
-        .select("*")
-        .eq("id", sentId)
-        .order("Joined_at", { ascending: true });
+    .from("conversation_member")
+    .select(`
+            conversation_id,
+            conversation (
+                id,
+                conversation_member (
+                    id,
+                    user (
+                        profile (
+                            profile_id,
+                            name
+                        )
+                    )
+                )
+            )
+        `)
+    .eq("id", req.user.id)
+    .order("Joined_at", { ascending: true });
 
-    
-    if(error){
-        console.log("Error while sending messages", error)
-
+    if (error) {
+        console.error("Error while getting conversations:", error);
         return res.status(500).json({
-            error: "Internal sever error"
-        })
+            error: "Internal server error"
+        });
     }
 
-    const respone = data.map(conversation => conversation.conversation_id);
+    const response = data.map(item => ({
+        conversation_id: item.conversation_id,
+        members: item.conversation.conversation_member.map(member => ({
+            user_id: member.id,
+            ...member.user.profile[0]
+        }))
+    }));
+
+    console.log("Conversations for user", userId, ":", response);
+
     return res.status(200).json({
-        data: respone
+        data: response
     });
 }
 
@@ -30,8 +51,6 @@ export async function sentMessage(req, res){
     const conversation_id = req.params.conversation_id;
 
     const content = req.body.content;
-    console.log(req.params.conversation_id);
-    console.log(req.body.content);
 
     if(!content || content.trim() === ""){
         return res.status(400).json({
@@ -100,8 +119,6 @@ export async function deleteAdminMessage(req,res){
                 error: error
             })
         }
-        
-        console.log(data.data);
 
         return res.status(200).json({
             data: data

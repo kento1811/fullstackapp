@@ -16,7 +16,7 @@ export async function limitCachedMessages(conversation_id) {
     const messages = await db.message
         .where("conversation_id")
         .equals(conversation_id)
-        .sortBy("created_at");
+        .sortBy("created_at", { descending: false });
 
     if (messages.length <= 50) {
         return;

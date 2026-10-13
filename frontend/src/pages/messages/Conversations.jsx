@@ -122,12 +122,19 @@ export default function Conversations(){
             <Sidebar activePage = "Conversations"/>
             <div id="conversationContainer"> 
                 <div id="conversationsSidebar">
-                    {conversations.map((conversationId,index) => (
-                        <button key = {conversationId} className={`conversationsSidebar-content 
-                            ${activeConversation === conversationId ? "active" : ""}`}
-                            onClick={() => {setActiveConversation(conversationId)}}
+                    {conversations.map((conversation,index) => (
+                        <button key = {conversation.conversation_id} className={`conversationsSidebar-content 
+                            ${activeConversation === conversation.conversation_id ? "active" : ""}`}
+                            onClick={() => {setActiveConversation(conversation.conversation_id)}}
                         >
-                            <p>Conversation {index}</p>
+                            {(() => {
+                                if (conversation.members.length <= 2) {
+                                    const otherMember = conversation.members.find(member => member.user_id !== user.id);
+                                    return otherMember ? otherMember.name : "Unknown";
+                                } else {
+                                    return `Group Chat (${conversation.members.length} members)`;
+                                }
+                            })()}
                         </button>
                     ))}
                 </div>

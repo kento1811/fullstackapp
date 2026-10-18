@@ -11,8 +11,9 @@ export default function Conversations(){
     const [loading, setLoading] = useState(false);
     const [messageInput,setMessageInput] = useState("");
     const {user,socket} = useAuth();
-    const { conversations } = useConversation();
+    const { conversations, profile } = useConversation();
     const messagesEndRef = useRef(null);
+    const [userIDMessage, setUserIDMessage] = useState("");
 
     const getMessages = async () => {
         if(!activeConversation) {
@@ -49,6 +50,7 @@ export default function Conversations(){
                 id: crypto.randomUUID(),
                 sent_id:user.id,
                 content:content,
+                avatar_url:profile.avatar_url
             }
             setMessages((prev) =>[
                 ...prev,
@@ -146,11 +148,14 @@ export default function Conversations(){
                     :
                         <div id="messages">
                             {messages.map((message,index) => (
-                            <p key = {message.id} className={`dialogue-content 
-                                ${ user.id === message.sent_id ? "right" : "left"}
-                            `}>
-                                {message.content}
-                            </p>
+                                <div key={index} className={`dialogue-content ${message.sent_id === user.id ? "right" : "left"}`}>
+                                    <div className={`message-avatar ${message.sent_id === user.id ? "hidden" : "show"}`}>
+                                        <img src={message.avatar_url} alt="avatar" />
+                                    </div>
+                                    <div className="message-content">
+                                        <p>{message.content}</p>
+                                    </div>
+                                </div>
                             ))}
 
                             <div ref={messagesEndRef}></div>

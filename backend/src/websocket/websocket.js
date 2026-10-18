@@ -125,7 +125,8 @@ export function setupWebSocket(server) {
                     client.send(JSON.stringify({
                         type: "new_message",
                         conversation_id: data.conversation_id,
-                        data: messageData
+                        data: messageData,
+                        avatar_url: data.avatar_url,
                     }));
                 }
             }

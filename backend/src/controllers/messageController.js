@@ -83,12 +83,11 @@ export async function sentMessage(req, res){
 export async function getMessages(req, res) {
     const conversation_id = req.params.conversation_id;
 
-    const { data, error } = await supabase
-        .from("message")
-        .select("*")
-        .eq("conversation_id", conversation_id )
-        .order("Send_at", { ascending: true });
-
+    const { data, error } = await supabase.rpc(
+        "get_messages_with_profiles",
+        { target_conversation_id: conversation_id }
+    );
+    
     if (error) {
         console.error(error);
 

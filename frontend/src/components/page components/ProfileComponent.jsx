@@ -1,28 +1,36 @@
 import "./ProfileComponent.css";
 import { useEffect, useState } from "react";
-import { getProfile } from "../../services/profileService.js";
+import { useConversation } from "../../contexts/conversationContext.jsx";
 import Loading from "./Loading.jsx";
 
 export default function ProfileComponent({profile_id = "me"}){
-    const [profile,setProfile] = useState(null);
+    const [profileTarget,setProfileTarget] = useState(null);
     const [loading,setLoading] = useState(true);
+    const { profile,loadProfile } = useConversation();
+
     async function Profiles(profile_id){
         try{
             setLoading(true);
-            const {response, data} = await getProfile(profile_id);
-            setProfile(data.data);
+            if (profile_id === "me"){
+                await setProfileTarget(profile);
+                setLoading(false);
+                return;
+            }
+            const data = await loadProfile(profile_id);
+            setProfileTarget(data);
             setLoading(false);
+            return;
         } catch(e){
             setLoading(false);
-            console.log("error while get Profile");
-            setProfile(null);
+            console.log("error while get Profile", e);
+            setProfileTarget(null);
             return;
         }
     }
 
     useEffect(() => {
         Profiles(profile_id);
-    },[profile_id]);
+    },[profile_id, profile]);
 
 
     return (
@@ -34,13 +42,13 @@ export default function ProfileComponent({profile_id = "me"}){
             :
             <div id = "profile-component">
                 <div id="avatar">
-                    <img src={profile.avatar_url} alt="avatar" />
+                    <img src={profileTarget?.avatar_url} alt="avatar" />
                 </div>
                 <div id="information">
-                    <p id="name"> {profile.name ? profile.name : "guest"}</p>
-                    <p id="quote">{profile.quote}</p>
-                    <p id="date-of-birth">{profile.date_of_birth}</p>
-                    <p id="gender">{profile.is_male ? "male" : "female"}</p>
+                    <p id="name"> {profileTarget?.name ? profileTarget.name : "guest"}</p>
+                    <p id="quote">{profileTarget?.quote}</p>
+                    <p id="date-of-birth">{profileTarget?.date_of_birth}</p>
+                    <p id="gender">{profileTarget?.is_male ? "male" : "female"}</p>
                 </div>
                 <div id="images"></div>
             </div>}
